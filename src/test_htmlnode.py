@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -85,6 +85,44 @@ class TestLeafNode(unittest.TestCase):
             node.to_html(),
             '<div href="https://boot.dev">Hello, world!</div>'
         )
+
+class TestParentNode(unittest.TestCase):
+    def test_parent_with_mixed_children(self):
+        parent = ParentNode(
+            "div",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                ParentNode("p", [LeafNode("i", "Italic text")])
+            ]
+        )
+    def test_to_html_with_grandchildren(self):
+        grandchild_node = LeafNode("b", "grandchild")
+        child_node = ParentNode("span", [grandchild_node])
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(
+            parent_node.to_html(),
+            "<div><span><b>grandchild</b></span></div>",
+        )
+    
+    def test_to_html_with_children(self):
+        child_node = LeafNode("span", "child")
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+
+    def test_parent_node_empty_children_list(self):
+        parent = ParentNode("div", [])
+        self.assertRaises(ValueError, parent.to_html)
+
+    def test_parent_node_empty_tag(self):
+        child_node = LeafNode("span", "child")
+        parent = ParentNode(None, [child_node])
+        self.assertRaises(ValueError, parent.to_html)
+    
+    def test_parent_node_empty_string_tag(self):
+        child_node = LeafNode("span", "child")
+        parent = ParentNode("", [child_node])
+        self.assertRaises(ValueError, parent.to_html)
  
 
 
