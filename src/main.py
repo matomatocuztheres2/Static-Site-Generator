@@ -2,7 +2,7 @@ import os
 import shutil
 
 from copystatic import copy_files_recursive
-from gencontent import generate_page
+from gencontent import generate_page, generate_pages_recursive
 
 
 dir_path_static = "./static"
@@ -25,5 +25,15 @@ def main():
         template_path,
         os.path.join(dir_path_public, "index.html"),
     )
+    if __name__ == "__main__":
+        # Ensure the public directory exists
+        os.makedirs("public", exist_ok=True)
+        
+        # Copy static files (if this isn't already done elsewhere)
+        # ... code to copy static files ...
+        
+        # Generate HTML pages from markdown
+        generate_pages_recursive("content", "template.html", "public")
+
 
 main()
