@@ -28,15 +28,7 @@ def main():
 
     print("Generating page...")
     
-    if __name__ == "__main__":
-        # Ensure the public directory exists
-        os.makedirs("public", exist_ok=True)
-        
-        # Copy static files (if this isn't already done elsewhere)
-        # ... code to copy static files ...
-        
-        # Generate HTML pages from markdown
-        generate_pages_recursive(dir_path_content, template_path, dir_path_public, basepath)
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public, basepath)
 
 
 main()
