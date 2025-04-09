@@ -1,1 +1,1 @@
-This project converts Markdown to HTML
+This project converts Markdown to HTML.
